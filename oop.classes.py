@@ -175,3 +175,104 @@ class Reviewer:
 
     def __str__(self):
         return f"Имя: {self.name}\nФамилия: {self.surname}"
+
+    # -----------------------
+    # Создание экземпляров
+    # -----------------------
+
+    # Студенты
+    student1 = Student('Ольга', 'Алёхина', 'Ж')
+    student2 = Student('Иван', 'Сидоров', 'М')
+
+    # Лекторы
+    lecturer1 = Lecturer('Иван', 'Иванов')
+    lecturer2 = Lecturer('Мария', 'Петрова')
+
+    # Ревьюеры
+    reviewer1 = Reviewer('Пётр', 'Петров')
+    reviewer2 = Reviewer('Анна', 'Смирнова')
+
+    # -----------------------
+    # Назначение курсов
+    # -----------------------
+
+    student1.courses_in_progress += ['Python', 'Java']
+    student2.courses_in_progress += ['Python', 'C++']
+
+    student1.finished_courses += ['Введение в программирование']
+    student2.finished_courses += ['Введение в Python']
+
+    lecturer1.courses_attached += ['Python', 'C++']
+    lecturer2.courses_attached += ['Python', 'Java']
+
+    reviewer1.courses_attached += ['Python', 'C++']
+    reviewer2.courses_attached += ['Python', 'Java']
+
+    # -----------------------
+    # Оценивание
+    # -----------------------
+
+    # Студенты оценивают лекторов
+    student1.rate_lecture(lecturer1, 'Python', 9)
+    student1.rate_lecture(lecturer2, 'Java', 8)
+    student2.rate_lecture(lecturer1, 'Python', 7)
+    student2.rate_lecture(lecturer2, 'Python', 10)  # студент2 не на Python? проверим ошибки
+
+    # Ревьюеры оценивают студентов
+    reviewer1.rate_hw(student1, 'Python', 9)
+    reviewer1.rate_hw(student2, 'C++', 8)
+    reviewer2.rate_hw(student1, 'Java', 7)
+    reviewer2.rate_hw(student2, 'Python', 10)
+
+    # -----------------------
+    # Печать информации (__str__)
+    # -----------------------
+
+    print(student1)
+    print(student2)
+    print(lecturer1)
+    print(lecturer2)
+    print(reviewer1)
+    print(reviewer2)
+
+    # -----------------------
+    # Функции для средней оценки по курсу
+    # -----------------------
+
+    def average_student_grade(students, course_name):
+        """Средняя оценка всех студентов по курсу"""
+        all_grades = []
+        for student in students:
+            if course_name in student.grades:
+                all_grades.extend(student.grades[course_name])
+        if all_grades:
+            return round(sum(all_grades) / len(all_grades), 2)
+        return 0
+
+    def average_lecturer_grade(lecturers, course_name):
+        """Средняя оценка всех лекторов по курсу"""
+        all_grades = []
+        for lecturer in lecturers:
+            if course_name in lecturer.grades:
+                all_grades.extend(lecturer.grades[course_name])
+        if all_grades:
+            return round(sum(all_grades) / len(all_grades), 2)
+        return 0
+
+    # -----------------------
+    # Проверка функций
+    # -----------------------
+
+    students_list = [student1, student2]
+    lecturers_list = [lecturer1, lecturer2]
+
+    print("Средняя оценка студентов по Python:", average_student_grade(students_list, 'Python'))
+    print("Средняя оценка студентов по Java:", average_student_grade(students_list, 'Java'))
+    print("Средняя оценка лекторов по Python:", average_lecturer_grade(lecturers_list, 'Python'))
+    print("Средняя оценка лекторов по Java:", average_lecturer_grade(lecturers_list, 'Java'))
+
+    # -----------------------
+    # Сравнение студентов и лекторов
+    # -----------------------
+    print("student1 > student2?", student1 > student2)
+    print("lecturer1 < lecturer2?", lecturer1 < lecturer2)
